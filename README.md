@@ -2,6 +2,25 @@
 
 Tmux is a **terminal multiplexer**. Using tmux we can create, access and control terminals from a single terminal. Tmux sessions can be detached, and continue running in the background, then we can reattach. This is extremely helpful and it is one of the coolest features of tmux. To get up and running with tmux, you need to learn some tmux commands.
 
+## Installation
+
+### For Linux
+
+Every major distribution has tmux in their repositories, so you google them up. Below I listed the install commands for arch based and ubuntu distribution.
+
+```sh
+pacman sudo -Su tmux
+``` 
+
+```sh
+sudo apt-get install tmux
+```
+
+### For Mac
+
+```sh
+brew install tmux
+```
 ## Starting Tmux
 
 To start tmux, enter *tmux* in your terminal.
@@ -16,7 +35,7 @@ The default prefix key is *ctrl+ b*, that is you should press the *ctrl* and *b*
 
 ### New Window
 
-To create a new window in your current session, type *prefix c*, while will create a new window and the focus will be on the newly created window. To navigate between the windows, use *prefix p* aka previous window and *prefix n* aka next window.
+To create a new window in your current session, type *prefix c*, while will create a new window and the focus will be on the newly created window. To navigate between the windows, use *prefix p* aka previous window and *prefix n* aka next window. Also, you can navigate through windows by using *prefix [num]* where *num* is the number associated with each window.
 
 ### Panes
 
@@ -55,7 +74,6 @@ bind r source-file ~/.tmux.conf \; "reloaded!"
 ```
 
 #### Resizing panes
-
 ```sh
 bind -r H resize-pane -L 5
 bind -r L resize-pane -R 5
@@ -89,6 +107,77 @@ bind -n M-Down  select-pane -D
 bind-key -n C-Right select-window -n
 bind-key -n C-Left  select-window -p
 ```
-After reloading the file, you can navigate between windows using **Ctrl+Left** and **Ctrl+Right** keybindings. For panes, use the **Left Alt** key with **ARROW KEYS**.
+After reloading the file, you can navigate between windows using *Ctrl+Left* and *Ctrl+Right* keybindings. For panes, use the *Left Alt* key with *ARROW KEYS*.
 
+#### Index start from 1
 
+By default, the windows and panes will be numbered starting from 0 which feels strange. The following snippet can be used to set the index start from 1.
+
+```sh
+set -g base-index 1
+setw -g pane-base-index 1
+```
+#### Faster Response time
+
+When you open a new window or split a pane, if you feel that the response is not fast enought, you can set the *escape-time* value to 1and immediately feel the snappiness of tmux.
+
+```sh
+set -sg escape-time 1
+```
+#### Status bar
+
+Status bar can be customized to display some useful information. On the left side we can display information such as session name, window number and pane number. On the right side, we can set it to display to battery precentage, date and time. For the right side panel, we can use the tmux plugin [tmux-battery]()
+
+```sh
+git clone https://github.com/tmux-plugins/tmux-battery
+```
+
+```sh
+# Status bar customization
+set -g status-left-length 40
+set -g status-left "#[fg=green]#S #[fg=yellow]#I #[fg=cyan]#P "
+
+# Right panel: Display battery, Date, Time
+set -g status-right 'Batt: #{battery_percentage} | %a %h-%d %H:%M '
+```
+The following line should be at the bottom of your config file. This line points to the location of the file *battery.tmux* which is lacated in the repo you cloned earlier.
+
+```sh
+# These commands should be at the bottom!
+run-shell ~/Downloads/tmux-battery/battery.tmux
+```
+## Other useful things to know
+
+### Renaming windows
+
+You should rename your window so that you can quickly see what process are taking place in each window by looking at the window name. Press *prefix ,* and it will prompt you to enter the window name.
+
+### Zoom pane
+
+Splitting the windows into multiple panes is a neat feature, sometimes you just want to focus on working only on one pane, for that press *prefix z* to zoom the pane and again press the same keybinding to revert back'
+
+### Closing windows and panes
+
+You can close the windows and panes by entering *exit* but if you want to do it in the tmux way, press *prefix &* to close the window and enter *y* in the prompt for confirmation.
+
+Similarly, for panes press *prefix x*.
+
+### Default pane layouts
+
+Tmux has some default pane layouts that you maybe interested in. You can cycle through the pane layouts by pressing *prefix spacebar*.
+
+### Get list of available key bindings
+
+You can get the list of all the available keybindings in tmux by pressing *prefix ?* and press *q* to exit out of it.
+
+### Command mode
+Yes, tmux has command mode, isn't it awesome? You can access command mode by pressing *prefix :* and it will prompt you to enter the commands. See the below snippet.
+
+```sh
+new-window -n text-editor "vim"
+```
+
+The above command does what is says, i.e, it creates a new window named *text-editor* and opens *vim* in it.
+## Config file
+
+If you have any doubts related to configurations, refer to my [config file](https://github.com/manikandanraji/dotfiles)
