@@ -178,6 +178,3 @@ new-window -n text-editor "vim"
 ```
 
 The above command does what is says, i.e, it creates a new window named *text-editor* and opens *vim* in it.
-## Config file
-
-If you have any doubts related to configurations, refer to my [config file](https://github.com/manikandanraji/dotfiles)
