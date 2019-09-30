@@ -9,7 +9,7 @@ Tmux is a **terminal multiplexer**. Using tmux we can create, access and control
 Every major distribution has tmux in their repositories, so you google them up. Below I listed the install commands for arch based and ubuntu distribution.
 
 ```sh
-pacman sudo -Su tmux
+sudo pacman -Su tmux
 ``` 
 
 ```sh
